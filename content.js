@@ -1,3 +1,11 @@
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.browserAction.setPopup({popup: 'popup.html'});
+});
+
+chrome.runtime.onStartup.addListener(function() {
+  chrome.browserAction.setPopup({popup: 'popup.html'});
+});
+
 function checkForSensitiveFields(form) {
     const sensitiveKeywords = ["password", "email", "confirm", "address", "phone", "credit card"];
     const sensitiveTypes = ["password", "email"]; // Sensitive input types
@@ -33,6 +41,7 @@ function checkForSensitiveFields(form) {
   
   // User-triggered scan functionality (optional)
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    chrome.browserAction.setPopup({popup: 'popup.html'});
     if (message.action === "checkForForms") {
       const forms = document.querySelectorAll("form");
       const hasSensitiveForm = forms.some(form => checkForSensitiveFields(form));

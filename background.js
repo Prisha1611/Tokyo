@@ -1,3 +1,11 @@
+chrome.runtime.onInstalled.addListener(function() {
+  chrome.browserAction.setPopup({popup: 'popup.html'});
+});
+
+chrome.runtime.onStartup.addListener(function() {
+  chrome.browserAction.setPopup({popup: 'popup.html'});
+});
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "checkForForms") {
       chrome.tabs.executeScript(sender.tabId, { file: "contentScript.js" }); // Inject content script
@@ -55,4 +63,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       sendResponse([]); // No form details sent (optional)
     }
   });
+
+  chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    if (message.action === 'sensitiveDataDetected') {
+      chrome.notifications.create({
+        type: 'basic',
+        iconUrl: 'icon48.png',
+        title: 'Sensitive Data Alert!',
+        message: 'Sensitive data is being entered in a form. Exercise caution.',
+      });
+    }
+  });
+  
   

@@ -3,7 +3,16 @@
     "name": "ClearGuard",
     "version": "1.0",
     "description": "Alerts you about potential sensitive data collection on webpages.",
-    "permissions": ["activeTab"],
+    "permissions": ["activeTab", "storage", "notifications"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["contentScript.js"]
+      }
+    ],
     "action": {
       "default_popup": "popup.html",  
       "default_icon": {
